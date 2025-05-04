@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html><html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,7 +63,6 @@
       cursor: pointer;
     }
     .remove-btn:hover { color: #a71d2a; }
-    /* Masquer le résultat tant que rien n'est calculé */
     .result {
       display: none;
       margin-top: 25px; padding: 20px;
@@ -141,9 +140,7 @@
         </label>`;
       container.appendChild(row);
 
-      // suppression
       row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
-      // synchronisation preset → inputs
       const sel = row.querySelector('.type');
       const vol = row.querySelector('.volume');
       const deg = row.querySelector('.degre');
@@ -157,7 +154,6 @@
       sel.dispatchEvent(new Event('change'));
     }
 
-    // boisson initiale
     addDrink();
 
     function calculer() {
@@ -167,11 +163,9 @@
       const rows  = document.querySelectorAll('.drink-row');
       const resultDiv = document.getElementById('resultat');
 
-      // masquer le résultat tant que recalcul non fait
       resultDiv.style.display = 'none';
       resultDiv.className = 'result';
 
-      // validations
       if (isNaN(age) || isNaN(poids) || isNaN(r)) {
         resultDiv.textContent = 'Veuillez renseigner votre âge, poids et sexe.';
         resultDiv.classList.add('warning');
@@ -185,7 +179,6 @@
         return;
       }
 
-      // calcul alcool (en grammes)
       let totalGr = 0;
       rows.forEach(row => {
         const count    = parseFloat(row.querySelector('.count').value) || 0;
@@ -197,15 +190,13 @@
       const taux = totalGr / (poids * r);
       const gL   = taux.toFixed(2);
 
-      // classification
       let niveau = '';
       if (taux < 0.5)        niveau = 'low';
       else if (taux < 1.5)   niveau = 'moderate';
       else if (taux < 2.0)   niveau = 'severe';
-      else                    niveau = 'warning';
+      else                   niveau = 'warning';
       resultDiv.classList.add(niveau);
 
-      // message
       let message = `Taux estimé : ${gL} g/L`;
       if (taux < 0.5)         message += ' (effets légers)';
       else if (taux < 1.5)    message += ' (ivresse modérée)';
@@ -213,7 +204,6 @@
       else if (taux < 3.0)    message += ' (risque de coma)';
       else                    message += ' (danger vital immédiat)';
 
-      // commentaire d'âge
       let commentaire = '';
       if (age < 12)           commentaire = 'Enfant : alcool toxique, risque de coma.';
       else if (age < 18)      commentaire = 'Adolescent : développement cérébral en cours.';
